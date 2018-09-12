@@ -4,7 +4,7 @@ class Crack(Checks):
     @check()
     def exists(self):
         """crack.c exists."""
-        check50.require("crack.c")
+        self.require("crack.c")
 
     @check("exists")
     def compiles(self):
