@@ -134,3 +134,4 @@ def inventory():
         check50.run(run_command).stdin("INVENTORY").stdout("Your inventory is empty.")
     except check50.Failure as error:
         raise check50.Failure(f"Let the player know they have no items.\n    {error}")
+    check50.run(run_command).stdin("in").stdin("TAKE keys").stdin("INVENTORY").stdout("KEYS: a set of keys")

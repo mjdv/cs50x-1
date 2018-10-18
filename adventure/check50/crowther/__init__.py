@@ -151,6 +151,7 @@ def conditional_move():
 def forced_move():
     """Checking if forced movements prevent the player from passing the grate."""
     check50.run(run_command).stdin("down\ndown\ndown\ndown").stdout("The grate is locked and you don't have any keys.\nOutside grate")
+    check50.run(run_command).stdin("in").stdin("TAKE keys").stdin("INVENTORY").stdout("KEYS: a set of keys")
 
 @check50.check(conditional_move)
 def exotic_move():
