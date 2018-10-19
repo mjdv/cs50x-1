@@ -58,9 +58,9 @@ def move_invalid():
 def move_repeatedly():
     """Moving west then east in succession."""
     check = check50.run(run_command)
-    check.stdin("west").stdout(room_2_description)
-    check.stdin("east").stdout(room_1_name)
-    check.stdin("west").stdout(room_2_name)
+    check.stdin("WEST").stdout(room_2_description)
+    check.stdin("EAST").stdout(room_1_name)
+    check.stdin("WEST").stdout(room_2_name)
 
 
 @check50.check(move_repeatedly)
