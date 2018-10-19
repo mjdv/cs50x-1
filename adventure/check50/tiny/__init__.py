@@ -29,7 +29,7 @@ room_8_items = "LAMP: a brightly shining brass lamp"
 room_14_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber.\n"
 room_15_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber. High in the cavern, you see a little bird flying around the rocks.  It takes one look at the black rod and quickly flies out of sight.\n"
 
-help_statement = "You can move by typing directions such as EAST/WEST/IN/OUT\nQUIT quits the game.\nHELP prints instructions for the game.\nINVENTORY lists the item in your inventory.\nLOOK lists the complete description of the room and its contents.\nTAKE <item> take item from the room.\nDROP <item> drop item from your inventory.\n"
+help_statement = ["EAST/WEST/IN/OUT", "QUIT quits", "HELP prints", "INVENTORY lists", "LOOK lists", "TAKE <item>", "DROP <item>"]
 
 
 @check50.check()
@@ -73,8 +73,11 @@ def move_mixed_case():
 @check50.check(move_mixed_case)
 def helper_commands():
     """Testing helper commands; HELP, LOOK, QUIT."""
+    # Test HELP
     try:
-        check50.run(run_command).stdin("HELP").stdout(help_statement)
+        check = check50.run(run_command).stdin("HELP")
+        for help in help_statement:
+            check.stdout(help)
     except check50.Failure as error:
         raise check50.Failure(f"HELP did not print the expected message.\n    {error}")
 
@@ -89,7 +92,8 @@ def helper_commands():
     try:
         check50.run(run_command).stdin("QUIT").stdout("Thanks for playing!").exit(0)
     except check50.Failure as error:
-        raise check50.Failure(f"QUIT did not print the expected message.\n    {error}")
+        raise check50.Failure(f"QUIT did not function as expected.\n    {error}")
+
 
 @check50.check(helper_commands)
 def commands():
@@ -114,7 +118,7 @@ def find_items():
     """Finds items in rooms."""
     check50.exists("item.py")
     try:
-        check50.run(run_command).stdin("in").stdout(room_3_description + room_3_items)
+        check50.run(run_command).stdin("in").stdout(room_3_items)
     except check50.Failure as error:
         raise check50.Failure("Could not find items upon first entering room.\n" +
                               "    Remember to seperate multiple items by a single newline\n" +
