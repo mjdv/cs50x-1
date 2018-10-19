@@ -23,7 +23,7 @@ room_3_description = "You are inside a building, a well house for a large spring
 room_3_items = "KEYS: a set of keys"
 
 room_8_name = "Beneath grate\n"
-room_8_description = "You are in a small chamber beneath a 3x3 steel grate to the surface.  A low crawl over cobbles leads inward to the west.\n"
+room_8_description = ["You are in a small chamber", "A low crawl", "to the west"]
 room_8_items = "LAMP: a brightly shining brass lamp"
 
 room_14_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber.\n"
