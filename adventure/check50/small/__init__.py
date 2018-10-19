@@ -44,7 +44,7 @@ def exists():
 
 @check50.check(exists)
 def move_once():
-    """Move once to the west."""
+    """Starting Adventure then moving once to the WEST."""
     try:
         check50.run(run_command).stdout(room_1_description)
     except check50.Failure as error:
@@ -54,7 +54,7 @@ def move_once():
 
 @check50.check(exists)
 def move_invalid():
-    """Attempt an invalid move."""
+    """Moving WEST then EAST in succession."""
     check50.run(run_command).stdin("EAST").stdout("Invalid command.")
 
 
