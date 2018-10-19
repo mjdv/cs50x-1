@@ -128,7 +128,7 @@ def find_items():
         check50.run(run_command).stdin("in").stdout(room_3_description + room_3_items)
     except check50.Failure as error:
         raise check50.Failure("Could not find items upon first entering room.\n" +
-                              "    Remember to seperate multiple items by a newline\n" +
+                              "    Remember to seperate multiple items by a single newline\n" +
                               f"    {error}")
     # Check for look command
     try:
