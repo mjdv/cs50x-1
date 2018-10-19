@@ -26,8 +26,8 @@ room_8_name = "Beneath grate\n"
 room_8_description = "You are in a small chamber beneath a 3x3 steel grate to the surface.  A low crawl over cobbles leads inward to the west.\n"
 room_8_items = "LAMP: a brightly shining brass lamp"
 
-room_14_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber.\n"
-room_15_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber. High in the cavern, you see a little bird flying around the rocks.  It takes one look at the black rod and quickly flies out of sight.\n"
+room_14_description = ["You are in a splendid chamber", "A narrow canyon", "sides of the chamber"]
+room_15_description = ["You are in a splendid chamber", "A narrow canyon", "High in the cavern", "black rod and quickly"]
 
 help_statement = ["EAST/WEST/IN/OUT", "QUIT quits", "HELP prints", "INVENTORY lists", "LOOK lists", "TAKE <item>", "DROP <item>"]
 
@@ -202,7 +202,7 @@ def conditional_move():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout(room_8_description + room_8_items)
+    check.stdout(room_8_items)
 
 
 @check50.check(handle_items)
