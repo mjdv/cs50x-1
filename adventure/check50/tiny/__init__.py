@@ -29,6 +29,9 @@ room_8_items = "LAMP: a brightly shining brass lamp"
 room_14_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber.\n"
 room_15_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber. High in the cavern, you see a little bird flying around the rocks.  It takes one look at the black rod and quickly flies out of sight.\n"
 
+help_statement = "You can move by typing directions such as EAST/WEST/IN/OUT\nQUIT quits the game.\nHELP prints instructions for the game.\nINVENTORY lists the item in your inventory.\nLOOK lists the complete description of the room and its contents.\nTAKE <item> take item from the room.\nDROP <item> drop item from your inventory.\n"
+
+
 @check50.check()
 def exists():
     """Checking if all files exist."""
@@ -71,15 +74,7 @@ def move_mixed_case():
 def helper_commands():
     """Testing helper commands; HELP, LOOK, QUIT."""
     try:
-        check50.run(run_command).stdin("HELP").stdout(
-            "You can move by typing directions such as EAST/WEST/IN/OUT\n" +
-            "QUIT quits the game.\n" +
-            "HELP prints instructions for the game.\n" +
-            "INVENTORY lists the item in your inventory.\n" +
-            "LOOK lists the complete description of the room and its contents.\n" +
-            "TAKE <item> take item from the room.\n" +
-            "DROP <item> drop item from your inventory.\n"
-            )
+        check50.run(run_command).stdin("HELP").stdout(help_statement)
     except check50.Failure as error:
         raise check50.Failure(f"HELP did not print the expected message.\n    {error}")
 
