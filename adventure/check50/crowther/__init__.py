@@ -29,6 +29,7 @@ room_8_items = "LAMP: a brightly shining brass lamp"
 room_14_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber.\n"
 room_15_description = "You are in a splendid chamber thirty feet high.  The walls are frozen rivers of orange stone.  A narrow canyon and a good passage exit from east and west sides of the chamber. High in the cavern, you see a little bird flying around the rocks.  It takes one look at the black rod and quickly flies out of sight.\n"
 
+
 @check50.check()
 def exists():
     """Checking if all files exist."""
@@ -37,6 +38,7 @@ def exists():
     check50.exists("room.py")
     check50.exists("inventory.py")
     check50.exists("item.py")
+
 
 @check50.check(exists)
 def move_once():
@@ -47,15 +49,20 @@ def move_once():
         raise check50.Failure(f"Expected the description of initial room when Adventure starts.\n    {error}")
     check50.run(run_command).stdin("WEST").stdout(room_2_description)
 
+
 @check50.check(exists)
 def move_invalid():
     """Attempt an invalid move."""
     check50.run(run_command).stdin("EAST").stdout("Invalid command.")
 
+
 @check50.check(move_once)
 def move_repeatedly():
     """Moving west then east in succession."""
-    check50.run(run_command).stdin("west").stdout(room_2_description).stdin("east").stdout(room_1_name).stdin("west").stdout(room_2_name)
+    check = check50.run(run_command)
+    check.stdin("west").stdout(room_2_description)
+    check.stdin("east").stdout(room_1_name)
+    check.stdin("west").stdout(room_2_name)
 
 @check50.check(move_repeatedly)
 def move_mixed_case():
@@ -67,6 +74,7 @@ def move_mixed_case():
 @check50.check(move_mixed_case)
 def helper_commands():
     """Testing helper commands; HELP, LOOK, QUIT."""
+    # Test HELP
     try:
         check50.run(run_command).stdin("HELP").stdout(
             "You can move by typing directions such as EAST/WEST/IN/OUT\n" +
@@ -79,11 +87,15 @@ def helper_commands():
             )
     except check50.Failure as error:
         raise check50.Failure(f"HELP did not print the expected message.\n    {error}")
+
+    # Test LOOK command
     try:
         check50.run(run_command).stdin("LOOK").stdout(room_1_description)
         check50.run(run_command).stdin("look").stdout(room_1_description)
     except check50.Failure as error:
         raise check50.Failure(f"LOOK/look did not print the expected room description.\n    {error}")
+
+    # Test QUIT
     try:
         check50.run(run_command).stdin("QUIT").stdout("Thanks for playing!").exit(0)
     except check50.Failure as error:
@@ -92,40 +104,85 @@ def helper_commands():
 @check50.check(helper_commands)
 def commands():
     """Test if program accepts user commands and abbreviations."""
+    # Check invalid command
     check50.run(run_command).stdin("cs50").stdout("Invalid command.")
+
+    # Check for upper case abreviation
     try:
         check50.run(run_command).stdin("W").stdout(room_2_description)
     except check50.Failure as error:
         raise check50.Failure(f"Could not use abbreviation 'w' to move")
+
+    # Check for lower case abbreviation
     try:
         check50.run(run_command).stdin("w").stdout(room_2_description)
     except check50.Failure as error:
         raise check50.Failure(f"Could not use abbreviation 'w' to move")
 
+
 @check50.check(helper_commands)
 def find_items():
     """Finds items in rooms."""
+    # Check initial description
     try:
         check50.run(run_command).stdin("in").stdout(room_3_description + room_3_items)
     except check50.Failure as error:
         raise check50.Failure(f"Could not find items upon first entering room.\n    {error}")
+
+    # Check for look command
     try:
-        check50.run(run_command).stdin("in").stdin("out").stdin("in").stdin("look").stdout("KEYS: a set of keys\nWATER: a bottle of water")
+        check = check50.run(run_command)
+        moves = ["IN", "OUT", "IN", "LOOK"]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+
+        check.stdout("KEYS: a set of keys\nWATER: a bottle of water")
     except check50.Failure as error:
         raise check50.Failure(f"Could not find items when using LOOK.\n    {error}")
+
 
 @check50.check(find_items)
 def handle_items():
     """Take and drop items."""
-    check50.run(run_command).stdin("in").stdin("TAKE keys").stdout("KEYS taken.")
-    check50.run(run_command).stdin("in").stdin("TAKE keys").stdin("out").stdin("DROP keys").stdout("KEYS dropped.").stdin("look").stdout("KEYS: a set of keys\n")
+    # Take keys check
+    check = check50.run(run_command)
+    moves = ["IN", "TAKE keys"]
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout("KEYS taken.")
+
+    # Drop keys check then look for dropped keys check
+    check = check50.run(run_command)
+    moves = ["IN", "TAKE keys", "OUT", "DROP keys"]
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout("KEYS dropped.")
+    check.stdin("look").stdout("KEYS: a set of keys\n")
+
 
 @check50.check(handle_items)
 def handle_invalid_items():
     """Take and drop nonexistand items."""
-    check50.run(run_command).stdin("in").stdin("TAKE kes").stdout("No such item.")
-    check50.run(run_command).stdin("in").stdin("TAKE keys").stdin("TAKE keys").stdout("No such item.")
-    check50.run(run_command).stdin("in").stdin("DROP something").stdout("No such item.")
+    check50.run(run_command).stdin("TAKE kes").stdout("No such item.")
+
+    check = check50.run(run_command)
+    moves = ["IN", "TAKE keys", "TAKE keys"]
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+    check.stdout("No such item.")
+
+    check50.run(run_command).stdin("DROP something").stdout("No such item.")
+
 
 @check50.check(handle_items)
 def inventory():
@@ -135,33 +192,120 @@ def inventory():
     except check50.Failure as error:
         raise check50.Failure(f"Let the player know they have no items.\n    {error}")
 
+    check = check50.run(run_command)
+    moves = ["IN", "TAKE keys", "INVENTORY"]
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout("KEYS: a set of keys")
+
+
 @check50.check(handle_items)
 def conditional_move():
     """Check if holding an item affects conditional movement."""
-    check50.run(run_command).stdin("in").stdin("out").stdin("down\ndown\ndown\ndown").stdout("The grate is locked and you don't have any keys.")
+    check = check50.run(run_command)
+    moves = ["DOWN", "DOWN", "DOWN", "DOWN"]
 
-    check50.run(run_command).stdin("in").stdin("TAKE keys").stdin("out").stdin("down\ndown\ndown\ndown").stdout(room_8_description + room_8_items)
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout("The grate is locked and you don't have any keys.")
+
+    check = check50.run(run_command)
+    moves = ["IN", "TAKE keys", "OUT",
+             "DOWN", "DOWN", "DOWN", "DOWN"
+             ]
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout(room_8_description + room_8_items)
+
     # Check for move with multiple conditions.
     try:
-        check50.run(run_command).stdin("IN\nTAKE KEYS\nOUT\nDOWN\nDOWN\nDOWN\nDOWN\nTAKE LAMP\nIN\nWEST\nWEST\nWEST\nTAKE BIRD\nWEST\nDOWN\nSOUTH\nTAKE NUGGET\nOUT\nDROP NUGGET\nUP\nEAST\nEAST\nEAST\nTAKE ROD\nWEST\nWEST\nLOOK\n").stdout(room_14_description).stdin("EAST\nDROP BIRD\nWEST\nLOOK\n").stdout(room_15_description)
+        check = check50.run(run_command)
+        moves = ["IN", "TAKE KEYS", "OUT", "DOWN", "DOWN",
+                 "DOWN", "DOWN", "TAKE LAMP", "IN", "WEST",
+                 "WEST", "WEST", "TAKE BIRD", "WEST", "DOWN",
+                 "SOUTH", "TAKE NUGGET", "OUT", "DROP NUGGET", "UP",
+                 "EAST", "EAST", "EAST", "TAKE ROD", "WEST",
+                 "WEST", "LOOK"
+                 ]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+        check.stdout(room_14_description)
+
+        moves = ["EAST", "DROP BIRD", "WEST", "LOOK"]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+        check.stdout(room_15_description)
+
     except check50.Failure as error:
         raise check50.Failure("Did not find correct room description when going WEST from room 13 holding either BIRD & ROD or just ROD.")
 
 @check50.check(conditional_move)
 def forced_move():
     """Checking if forced movements prevent the player from passing the grate."""
-    check50.run(run_command).stdin("down\ndown\ndown\ndown").stdout("The grate is locked and you don't have any keys.\nOutside grate")
-    check50.run(run_command).stdin("in").stdin("TAKE keys").stdin("INVENTORY").stdout("KEYS: a set of keys")
+    check = check50.run(run_command)
+    moves = ["DOWN", "DOWN", "DOWN", "DOWN"]
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout("The grate is locked and you don't have any keys.\nOutside grate")
+
 
 @check50.check(conditional_move)
 def exotic_move():
     """Performing special moves such as JUMP or XYZZY."""
     try:
-        check50.run(run_command).stdin("IN").stdin("XYZZY").stdout("It is now pitch dark.  If you proceed you will likely fall into a pit.")
+        check = check50.run(run_command)
+        moves = ["IN", "XYZZY"]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+
+        check.stdout("It is now pitch dark.  If you proceed you will likely fall into a pit.")
     except check50.Failure as error:
         raise check50.Failure("Could not perform XYZZY. Check CrowtherRooms.txt for all the different connections.")
+
 
 @check50.check(exotic_move)
 def won():
     """Testing Crowther Adventure win condition."""
-    check50.run(run_command).stdin("IN\nTAKE KEYS\nOUT\nDOWN\nDOWN\nDOWN\nDOWN\nTAKE LAMP\nIN\nWEST\nWEST\nWEST\nTAKE BIRD\nWEST\nDOWN\nSOUTH\nTAKE NUGGET\nOUT\nDROP NUGGET\nUP\nEAST\nEAST\nEAST\nTAKE ROD\nWEST\nWEST\nWEST\nDOWN\nTAKE NUGGET\nWEST\nWAVE\nTAKE DIAMOND\nWEST\nSOUTH\nSOUTH\nEAST\nNORTH\nNORTH\nTAKE CHEST\nOUT\nWEST\nDOWN\nWEST\nDOWN\nNORTH\nEAST\nTAKE COINS\nOUT\nNORTH\nDOWN\nEAST\nDROP LAMP\nDROP BIRD\nDROP NUGGET\nDROP COINS\nNORTH\nTAKE EMERALD\nOUT\nTAKE LAMP\nTAKE BIRD\nTAKE NUGGET\nTAKE COINS\nWEST\nWEST\nWEST\nDOWN\nWATER\nTAKE EGGS\nNORTH\nDOWN\nOUT\nEAST\nEAST\nEAST\nUP\nSOUTH\nSOUTH\nWEST\nWAVE\nWEST\nSOUTH\nNORTH\nNORTH\nEAST\nDOWN\nEAST\nEAST\nXYZZY\nNORTH\n").stdout("You have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!").exit(0)
+    moves = ["IN", "TAKE KEYS", "OUT", "DOWN", "DOWN",
+             "DOWN", "DOWN", "TAKE LAMP", "IN", "WEST",
+             "WEST", "WEST", "TAKE BIRD", "WEST", "DOWN",
+             "SOUTH", "TAKE NUGGET", "OUT", "DROP NUGGET", "UP",
+             "EAST", "EAST", "EAST", "TAKE ROD", "WEST",
+             "WEST", "WEST", "DOWN", "TAKE NUGGET", "WEST",
+             "WAVE", "TAKE DIAMOND", "WEST", "SOUTH", "SOUTH",
+             "EAST", "NORTH", "NORTH", "TAKE CHEST", "OUT",
+             "WEST", "DOWN", "WEST", "DOWN", "NORTH",
+             "EAST", "TAKE COINS", "OUT", "NORTH", "DOWN",
+             "EAST", "DROP LAMP", "DROP BIRD", "DROP NUGGET", "DROP COINS",
+             "NORTH", "TAKE EMERALD", "OUT", "TAKE LAMP", "TAKE BIRD",
+             "TAKE NUGGET", "TAKE COINS", "WEST", "WEST", "WEST",
+             "DOWN", "WATER", "TAKE EGGS", "NORTH", "DOWN",
+             "OUT", "EAST", "EAST", "EAST", "UP",
+             "SOUTH", "SOUTH", "WEST", "WAVE", "WEST",
+             "SOUTH", "NORTH", "NORTH", "EAST", "DOWN",
+             "EAST", "EAST", "XYZZY", "NORTH"
+             ]
+    check = check50.run(run_command)
+
+    for move in moves:
+        check.stdout("> ")
+        check.stdin(move, prompt=False)
+
+    check.stdout("You have collected all the treasures and are admitted to the Adventurer's Hall of Fame.  Congratulations!").exit(0)
