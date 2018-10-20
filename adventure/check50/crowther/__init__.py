@@ -28,7 +28,7 @@ room_3_description = ("You are inside a building, a well house for a large "
                       "spring. The exit door is to the south.  There is "
                       "another room to the north, but the door is barred by "
                       "a shimmering curtain.")
-room_3_items = ["KEYS", "a set of keys\n", "WATER", "a bottle of water"]
+room_3_items = ["KEYS", "a set of keys", "\n", "WATER", "a bottle of water"]
 
 room_8_name = "Beneath grate"
 room_8_description = ("You are in a small chamber beneath a 3x3 steel "
