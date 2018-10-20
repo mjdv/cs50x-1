@@ -28,7 +28,7 @@ room_3_description = ("You are inside a building, a well house for a large "
                       "spring. The exit door is to the south.  There is "
                       "another room to the north, but the door is barred by "
                       "a shimmering curtain.")
-room_3_items = ["KEYS", "a set of keys", "WATER", "a bottle of water"]
+room_3_items = ["KEYS", "a set of keys", "\n", "WATER", "a bottle of water"]
 
 room_8_name = "Beneath grate"
 room_8_description = ("You are in a small chamber beneath a 3x3 steel "
@@ -176,7 +176,7 @@ def find_items():
             check.stdin(move, prompt=False)
 
         for item in room_3_items:
-            check.stdout(item, regex=True)
+            check.stdout(item, regex=False)
     except check50.Failure as error:
         raise check50.Failure("Could not find items when using LOOK.\n"
                               f"    {error}")
