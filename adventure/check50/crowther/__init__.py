@@ -28,7 +28,7 @@ room_3_description = ("You are inside a building, a well house for a large "
                       "spring. The exit door is to the south.  There is "
                       "another room to the north, but the door is barred by "
                       "a shimmering curtain.")
-room_3_items = ["KEYS", "a set of keys", "\n", "WATER", "a bottle of water"]
+room_3_items = ["KEYS", "a set of keys\n", "WATER", "a bottle of water"]
 
 room_8_name = "Beneath grate"
 room_8_description = ("You are in a small chamber beneath a 3x3 steel "
@@ -163,7 +163,7 @@ def find_items():
     except check50.Failure as error:
         raise check50.Failure("Could not find items upon first entering room.\n"
                               "    Remember to seperate multiple items by a "
-                              "single newline\n"
+                              "single newline.\n"
                               f"    {error}")
 
     # Check for look command
