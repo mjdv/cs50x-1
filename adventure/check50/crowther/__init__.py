@@ -176,7 +176,7 @@ def find_items():
             check.stdin(move, prompt=False)
 
         for item in room_3_items:
-            check.stdout(item, regex=False)
+            check.stdout(item, regex=True)
     except check50.Failure as error:
         raise check50.Failure("Could not find items when using LOOK.\n"
                               f"    {error}")
@@ -204,7 +204,8 @@ def handle_items():
         check.stdin(move, prompt=False)
 
     check.stdout("KEYS dropped.", regex=False)
-    check.stdin("look").stdout("KEYS: a set of keys\n")
+    check.stdin("look").stdout("KEYS")
+    check.stdout("a set of keys")
 
 
 @check50.check(handle_items)
