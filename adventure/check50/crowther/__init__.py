@@ -28,7 +28,7 @@ room_3_description = ("You are inside a building, a well house for a large "
                       "spring. The exit door is to the south.  There is "
                       "another room to the north, but the door is barred by "
                       "a shimmering curtain.")
-room_3_items = "KEYS: a set of keys\nWATER: a bottle of water"
+room_3_items = ["KEYS", "a set of keys", "WATER", "a bottle of water"]
 
 room_8_name = "Beneath grate"
 room_8_description = ("You are in a small chamber beneath a 3x3 steel "
@@ -90,9 +90,12 @@ def move_repeatedly():
 @check50.check(move_repeatedly)
 def move_mixed_case():
     """Move with mixed case command."""
-    check50.run(run_command).stdin("west").stdout(room_2_description, regex=False)
-    check50.run(run_command).stdin("wESt").stdout(room_2_description, regex=False)
-    check50.run(run_command).stdin("west").stdin("EAST").stdout(room_1_name, regex=False)
+    check50.run(run_command).stdin("west").stdout(room_2_description,
+                                                  regex=False)
+    check50.run(run_command).stdin("wESt").stdout(room_2_description,
+                                                  regex=False)
+    check50.run(run_command).stdin("west").stdin("EAST").stdout(room_1_name,
+                                                                regex=False)
 
 @check50.check(move_mixed_case)
 def helper_commands():
@@ -103,37 +106,46 @@ def helper_commands():
         for help in help_statement:
             check.stdout(help)
     except check50.Failure as error:
-        raise check50.Failure(f"HELP did not print the expected message.\n    {error}")
+        raise check50.Failure(f"HELP did not print the expected message.\n"
+                              "    {error}")
 
     # Test LOOK command
     try:
-        check50.run(run_command).stdin("LOOK").stdout(room_1_description, regex=False)
-        check50.run(run_command).stdin("look").stdout(room_1_description, regex=False)
+        check50.run(run_command).stdin("LOOK").stdout(room_1_description,
+                                                      regex=False)
+        check50.run(run_command).stdin("look").stdout(room_1_description,
+                                                      regex=False)
     except check50.Failure as error:
-        raise check50.Failure(f"LOOK/look did not print the expected room description.\n    {error}")
+        raise check50.Failure(f"LOOK/look did not print the expected room"
+                              "description.\n    {error}")
 
     # Test QUIT
     try:
-        check50.run(run_command).stdin("QUIT").stdout("Thanks for playing!", regex=False).exit(0)
+        check50.run(run_command).stdin("QUIT").stdout("Thanks for playing!",
+                                                      regex=False).exit(0)
     except check50.Failure as error:
-        raise check50.Failure(f"QUIT did not function as expected.\n    {error}")
+        raise check50.Failure(f"QUIT did not function as expected.\n"
+                              "    {error}")
 
 
 @check50.check(helper_commands)
 def commands():
     """Test if program accepts user commands and abbreviations."""
     # Check invalid command
-    check50.run(run_command).stdin("cs50").stdout("Invalid command.", regex=False)
+    check = check50.run(run_command).stdin("cs50")
+    check.stdout("Invalid command.", regex=False)
 
     # Check for upper case abreviation
     try:
-        check50.run(run_command).stdin("W").stdout(room_2_description, regex=False)
+        check = check50.run(run_command).stdin("W")
+        check.stdout(room_2_description, regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"Could not use abbreviation 'w' to move")
 
     # Check for lower case abbreviation
     try:
-        check50.run(run_command).stdin("w").stdout(room_2_description, regex=False)
+        check = check50.run(run_command).stdin("w")
+        check.stdout(room_2_description, regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"Could not use abbreviation 'w' to move")
 
@@ -145,7 +157,9 @@ def find_items():
     try:
         check = check50.run(run_command).stdin("in")
         check.stdout(room_3_description, regex=False)
-        check.stdout(room_3_items, regex=False)
+
+        for item in room_3_items:
+            check.stdout(item, regex=False)
     except check50.Failure as error:
         raise check50.Failure("Could not find items upon first entering room.\n"
                               "    Remember to seperate multiple items by a "
@@ -161,7 +175,8 @@ def find_items():
             check.stdout("> ")
             check.stdin(move, prompt=False)
 
-        check.stdout(room_3_items, regex=False)
+        for item in room_3_items:
+            check.stdout(item, regex=False)
     except check50.Failure as error:
         raise check50.Failure("Could not find items when using LOOK.\n"
                               f"    {error}")
@@ -195,7 +210,8 @@ def handle_items():
 @check50.check(handle_items)
 def handle_invalid_items():
     """Take and drop nonexistand items."""
-    check50.run(run_command).stdin("TAKE kes").stdout("No such item.", regex=False)
+    check = check50.run(run_command).stdin("TAKE kes")
+    check.stdout("No such item.", regex=False)
 
     check = check50.run(run_command)
     moves = ["IN", "TAKE keys", "TAKE keys"]
@@ -205,16 +221,19 @@ def handle_invalid_items():
         check.stdin(move, prompt=False)
     check.stdout("No such item.", regex=False)
 
-    check50.run(run_command).stdin("DROP something").stdout("No such item.", regex=False)
+    check = check50.run(run_command).stdin("DROP something")
+    check.stdout("No such item.", regex=False)
 
 
 @check50.check(handle_items)
 def inventory():
     """Using the INVENTORY command."""
     try:
-        check50.run(run_command).stdin("INVENTORY").stdout("Your inventory is empty.", regex=False)
+        check = check50.run(run_command).stdin("INVENTORY")
+        check.stdout("Your inventory is empty.", regex=False)
     except check50.Failure as error:
-        raise check50.Failure(f"Let the player know they have no items.\n    {error}")
+        raise check50.Failure(f"Let the player know they have no items.\n"
+                              "    {error}")
 
     check = check50.run(run_command)
     moves = ["IN", "TAKE keys", "INVENTORY"]
@@ -236,7 +255,8 @@ def conditional_move():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("The grate is locked and you don't have any keys.", regex=False)
+    check.stdout("The grate is locked and you don't have any keys.",
+                 regex=False)
 
     check = check50.run(run_command)
     moves = ["IN", "TAKE keys", "OUT",
@@ -278,9 +298,10 @@ def conditional_move():
                               "going WEST from room 13 holding either BIRD & "
                               "ROD or just ROD.")
 
+
 @check50.check(conditional_move)
 def forced_move():
-    """Checking if forced movements prevent the player from passing the grate."""
+    """Checking if FORCED immediately moves the player."""
     check = check50.run(run_command)
     moves = ["DOWN", "DOWN", "DOWN", "DOWN"]
 
