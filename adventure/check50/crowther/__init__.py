@@ -210,10 +210,12 @@ def handle_items():
 
 @check50.check(handle_items)
 def handle_invalid_items():
-    """Take and drop nonexistand items."""
+    """Take and drop nonexistent items."""
+    # Take a non-existent item.
     check = check50.run(run_command).stdin("TAKE kes")
     check.stdout("No such item.", regex=False)
 
+    # Take an item twice.
     check = check50.run(run_command)
     moves = ["IN", "TAKE keys", "TAKE keys"]
 
@@ -222,6 +224,7 @@ def handle_invalid_items():
         check.stdin(move, prompt=False)
     check.stdout("No such item.", regex=False)
 
+    # Drop non-existent item.
     check = check50.run(run_command).stdin("DROP something")
     check.stdout("No such item.", regex=False)
 
@@ -229,6 +232,7 @@ def handle_invalid_items():
 @check50.check(handle_items)
 def inventory():
     """Using the INVENTORY command."""
+    # Check empty inventory.
     try:
         check = check50.run(run_command).stdin("INVENTORY")
         check.stdout("Your inventory is empty.", regex=False)
@@ -236,6 +240,7 @@ def inventory():
         raise check50.Failure(f"Let the player know they have no items.\n"
                               "    {error}")
 
+    # Check having keys.
     check = check50.run(run_command)
     moves = ["IN", "TAKE keys", "INVENTORY"]
 
@@ -243,7 +248,8 @@ def inventory():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("KEYS: a set of keys")
+    check.stdout("KEYS")
+    check.stdout("a set of keys")
 
 
 @check50.check(handle_items)
@@ -297,7 +303,8 @@ def conditional_move():
     except check50.Failure as error:
         raise check50.Failure("Did not find correct room description when "
                               "going WEST from room 13 holding either BIRD & "
-                              "ROD or just ROD.")
+                              "ROD or just ROD.\n"
+                              f"    {error}")
 
 
 @check50.check(conditional_move)
@@ -315,7 +322,7 @@ def forced_move():
 
 
 @check50.check(conditional_move)
-def exotic_move():
+def special_move():
     """Performing special moves such as JUMP or XYZZY."""
     try:
         check = check50.run(run_command)
@@ -333,7 +340,7 @@ def exotic_move():
                               "connections.")
 
 
-@check50.check(exotic_move)
+@check50.check(special_move)
 def won():
     """Testing Crowther Adventure win condition."""
     moves = ["IN", "TAKE KEYS", "OUT", "DOWN", "DOWN",
@@ -362,4 +369,5 @@ def won():
         check.stdin(move, prompt=False)
 
     check.stdout("You have collected all the treasures and are admitted to "
-                 "the Adventurer's Hall of Fame.  Congratulations!").exit(0)
+                 "the Adventurer's Hall of Fame.  Congratulations!",
+                 regex=False).exit(0)
