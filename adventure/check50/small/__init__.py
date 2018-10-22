@@ -275,7 +275,8 @@ def conditional_move():
         check.stdin(move, prompt=False)
 
     check.stdout(room_8_description, regex=False)
-    check.stdout(room_8_items, regex=False)
+    for item in room_8_items:
+        check.stdout(item, regex=False)
 
 
 @check50.check(conditional_move)
