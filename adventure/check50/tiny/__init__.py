@@ -32,7 +32,7 @@ room_8_name = "Beneath grate"
 room_8_description = ("You are in a small chamber beneath a 3x3 steel "
                       "grate to the surface.  A low crawl over cobbles "
                       "leads inward to the west.")
-room_8_items = "LAMP: a brightly shining brass lamp"
+room_8_items = ["LAMP", "a brightly shining brass lamp"]
 
 room_14_description = ("You are in a splendid chamber thirty feet high.  "
                        "The walls are frozen rivers of orange stone.  A narrow "
