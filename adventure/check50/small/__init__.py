@@ -47,6 +47,8 @@ room_15_description = ("You are in a splendid chamber thirty feet high.  "
 
 help_statement = ["EAST/WEST/IN/OUT", "QUIT quits", "HELP prints",
                   "INVENTORY lists", "LOOK lists", "TAKE <item>", "DROP <item>"]
+no_item = "No such item"
+drop_item = ""
 
 
 @check50.check()
@@ -74,7 +76,7 @@ def move_once():
 @check50.check(exists)
 def move_invalid():
     """Attempt an invalid move."""
-    check50.run(run_command).stdin("EAST").stdout("Invalid command.")
+    check50.run(run_command).stdin("EAST").stdout("Invalid command")
 
 
 @check50.check(move_once)
@@ -133,7 +135,7 @@ def commands():
     """Test if program accepts user commands and abbreviations."""
     # Check invalid command
     check = check50.run(run_command).stdin("cs50")
-    check.stdout("Invalid command.", regex=False)
+    check.stdout("Invalid command", regex=False)
 
     # Check for upper case abreviation
     try:
@@ -203,7 +205,7 @@ def handle_items():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("KEYS dropped.", regex=False)
+    check.stdout("KEYS dropped", regex=False)
     check.stdin("look").stdout("KEYS", regex=False)
     check.stdout("a set of keys", regex=False)
 
@@ -213,7 +215,7 @@ def handle_invalid_items():
     """Take and drop nonexistent items."""
     # Take a non-existent item.
     check = check50.run(run_command).stdin("TAKE kes")
-    check.stdout("No such item.", regex=False)
+    check.stdout(no_item, regex=False)
 
     # Take an item twice.
     check = check50.run(run_command)
@@ -222,11 +224,11 @@ def handle_invalid_items():
     for move in moves:
         check.stdout("> ")
         check.stdin(move, prompt=False)
-    check.stdout("No such item.", regex=False)
+    check.stdout(no_item, regex=False)
 
     # Drop non-existent item.
     check = check50.run(run_command).stdin("DROP something")
-    check.stdout("No such item.", regex=False)
+    check.stdout(no_item, regex=False)
 
 
 @check50.check(handle_items)
@@ -235,7 +237,7 @@ def inventory():
     # Check empty inventory.
     try:
         check = check50.run(run_command).stdin("INVENTORY")
-        check.stdout("Your inventory is empty.", regex=False)
+        check.stdout("Your inventory is empty", regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"Let the player know they have no items.\n"
                               "    {error}")
