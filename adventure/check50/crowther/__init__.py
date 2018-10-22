@@ -140,7 +140,7 @@ def commands():
         check = check50.run(run_command).stdin("W")
         check.stdout(room_2_description, regex=False)
     except check50.Failure as error:
-        raise check50.Failure(f"Could not use abbreviation 'w' to move")
+        raise check50.Failure(f"Could not use abbreviation 'W' to move")
 
     # Check for lower case abbreviation
     try:
@@ -370,4 +370,6 @@ def won():
 
     check.stdout("You have collected all the treasures and are admitted to "
                  "the Adventurer's Hall of Fame.  Congratulations!",
-                 regex=False).exit(0)
+                 regex=False)
+    check.stdout("\n")
+    check.exit(0)
