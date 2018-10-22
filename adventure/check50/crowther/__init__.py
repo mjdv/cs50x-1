@@ -87,6 +87,7 @@ def move_repeatedly():
     check.stdin("EAST").stdout(room_1_name, regex=False)
     check.stdin("WEST").stdout(room_2_name, regex=False)
 
+
 @check50.check(move_repeatedly)
 def move_mixed_case():
     """Move with mixed case command."""
@@ -96,6 +97,7 @@ def move_mixed_case():
                                                   regex=False)
     check50.run(run_command).stdin("west").stdin("EAST").stdout(room_1_name,
                                                                 regex=False)
+
 
 @check50.check(move_mixed_case)
 def helper_commands():
@@ -193,7 +195,7 @@ def handle_items():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("KEYS taken.")
+    check.stdout("KEYS taken.", regex=False)
 
     # Drop keys check then look for dropped keys check
     check = check50.run(run_command)
@@ -204,8 +206,8 @@ def handle_items():
         check.stdin(move, prompt=False)
 
     check.stdout("KEYS dropped.", regex=False)
-    check.stdin("look").stdout("KEYS")
-    check.stdout("a set of keys")
+    check.stdin("look").stdout("KEYS", regex=False)
+    check.stdout("a set of keys", regex=False)
 
 
 @check50.check(handle_items)
@@ -248,8 +250,8 @@ def inventory():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("KEYS")
-    check.stdout("a set of keys")
+    check.stdout("KEYS", regex=False)
+    check.stdout("a set of keys", regex=False)
 
 
 @check50.check(handle_items)
@@ -318,8 +320,9 @@ def forced_move():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("The grate is locked and you don't have any keys.")
-    check.stdout("Outside grate")
+    check.stdout("The grate is locked and you don't have any keys.",
+                 regex=False)
+    check.stdout("Outside grate", regex=False)
 
 
 @check50.check(conditional_move)

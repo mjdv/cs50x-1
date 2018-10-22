@@ -289,5 +289,6 @@ def forced_move():
         check.stdout("> ")
         check.stdin(move, prompt=False)
 
-    check.stdout("The grate is locked and you don't have any keys.", regex=False)
+    check.stdout("The grate is locked and you don't have any keys.",
+                 regex=False)
     check.stdout("Outside grate", regex=False)
