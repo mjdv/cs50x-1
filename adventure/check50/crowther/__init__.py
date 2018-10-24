@@ -74,9 +74,9 @@ def move_once():
                                                   regex=False)
 
 
-@check50.check(exists)
+@check50.check(move_once)
 def move_invalid():
-    """Attempt an invalid move."""
+    """Attempt to move EAST into an unconnected room."""
     check50.run(run_command).stdin("EAST").stdout("Invalid command")
 
 
@@ -110,7 +110,7 @@ def helper_commands():
             check.stdout(help)
     except check50.Failure as error:
         raise check50.Failure(f"HELP did not print the expected message.\n"
-                              "    {error}")
+                              f"    {error}")
 
     # Test LOOK command
     try:
@@ -311,7 +311,7 @@ def conditional_move():
                               f"    {error}")
 
 
-@check50.check(conditional_move)
+@check50.check(move_repeatedly)
 def forced_move():
     """Checking if FORCED immediately moves the player."""
     check = check50.run(run_command)
@@ -326,7 +326,7 @@ def forced_move():
     check.stdout("Outside grate", regex=False)
 
 
-@check50.check(conditional_move)
+@check50.check(move_repeatedly)
 def special_move():
     """Performing special moves such as JUMP or XYZZY."""
     try:

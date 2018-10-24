@@ -73,7 +73,7 @@ def move_once():
                                                   regex=False)
 
 
-@check50.check(exists)
+@check50.check(move_once)
 def move_invalid():
     """Attempt an invalid move."""
     check50.run(run_command).stdin("EAST").stdout("Invalid command")
