@@ -1,4 +1,4 @@
-import check50
+import check50x as check50
 
 # Template for checks:
 '''
