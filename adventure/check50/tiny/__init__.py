@@ -4,9 +4,9 @@ try:
     import check50x as check50
 except ImportError:
     import check50
-import pkg_resources
-if int(pkg_resources.get_distribution("check50").version[0]) < 3:
-    raise ImportError("This check requires check50 version 3.0.0 or above.")
+    import pkg_resources
+    if int(pkg_resources.get_distribution("check50").version[0]) < 3:
+        raise ImportError("This check requires check50 version 3.0.0 or above.")
 
 
 # Template for checks:
