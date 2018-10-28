@@ -1,4 +1,12 @@
-import check50x as check50
+# If student has check50 3.x installed as check50x import it.
+# Else regular check50 is used.
+try:
+    import check50x as check50
+except ImportError:
+    import check50
+import pkg_resources
+if int(pkg_resources.get_distribution("check50").version[0]) < 3:
+    raise ImportError("This check requires check50 version 3.0.0 or above.")
 
 # Template for checks:
 '''
