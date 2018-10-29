@@ -128,7 +128,7 @@ def helper_commands():
                                                       regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"LOOK/look did not print the expected room"
-                              "description.\n    {error}")
+                              f"description.\n    {error}")
 
     # Test QUIT
     try:
@@ -136,7 +136,7 @@ def helper_commands():
                                                       regex=False).exit(0)
     except check50.Failure as error:
         raise check50.Failure(f"QUIT did not function as expected.\n"
-                              "    {error}")
+                              f"    {error}")
 
 
 @check50.check(helper_commands)
@@ -249,7 +249,7 @@ def inventory():
         check.stdout("Your inventory is empty", regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"Let the player know they have no items.\n"
-                              "    {error}")
+                              f"    {error}")
 
     # Check having keys.
     check = check50.run(run_command)

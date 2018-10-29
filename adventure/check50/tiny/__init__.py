@@ -248,7 +248,7 @@ def inventory():
         check.stdout("Your inventory is empty", regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"Let the player know they have no items.\n"
-                              "    {error}")
+                              f"    {error}")
 
     # Check having keys.
     check = check50.run(run_command)
