@@ -76,7 +76,7 @@ def move_once():
         check50.run(run_command).stdout(room_1_description, regex=False)
     except check50.Failure as error:
         raise check50.Failure(f"Expected the description of initial "
-                              "room when Adventure starts.\n    {error}")
+                              f"room when Adventure starts.\n    {error}")
     check50.run(run_command).stdin("WEST").stdout(room_2_description,
                                                   regex=False)
 
@@ -89,7 +89,7 @@ def move_invalid():
 
 @check50.check(move_once)
 def move_repeatedly():
-    """Moving WEST then EAST in succession."""
+    """Moving WEST, EAST, WEST in succession."""
     check = check50.run(run_command)
     check.stdin("WEST").stdout(room_2_description, regex=False)
     check.stdin("EAST").stdout(room_1_name, regex=False)
@@ -140,24 +140,10 @@ def helper_commands():
 
 @check50.check(helper_commands)
 def commands():
-    """Test if program accepts user commands and abbreviations."""
+    """Test if program handles invalid commands."""
     # Check invalid command
     check = check50.run(run_command).stdin("cs50")
     check.stdout("Invalid command", regex=False)
-
-    # Check for upper case abreviation
-    try:
-        check = check50.run(run_command).stdin("W")
-        check.stdout(room_2_description, regex=False)
-    except check50.Failure as error:
-        raise check50.Failure(f"Could not use abbreviation 'W' to move")
-
-    # Check for lower case abbreviation
-    try:
-        check = check50.run(run_command).stdin("w")
-        check.stdout(room_2_description, regex=False)
-    except check50.Failure as error:
-        raise check50.Failure(f"Could not use abbreviation 'w' to move")
 
 
 @check50.check(helper_commands)
