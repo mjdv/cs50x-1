@@ -46,6 +46,9 @@ class Adventure(Checks):
     def tiny_spawn(self):
         return self.spawn("python3 adventure.py tiny")
 
+    def small_spawn(self):
+        return self.spawn("python3 adventure.py small")
+
     @check()
     def exists(self):
         """Checking if all files exist."""
@@ -237,3 +240,45 @@ class Adventure(Checks):
 
         check.stdout(re.escape("KEYS"), str_output="KEYS")
         check.stdout(re.escape("a set of keys"), str_output="KEYS")
+
+
+    @check("handle_items")
+    def conditional_move(self):
+        """Check if holding an item affects conditional movement."""
+        check = self.small_spawn()
+        moves = ["DOWN", "DOWN", "DOWN", "DOWN"]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+
+        check.stdout(re.escape("The grate is locked and you don't have any keys."),
+                     str_output="The grate is locked and you don't have any keys.")
+
+        check = self.small_spawn()
+        moves = ["IN", "TAKE keys", "OUT",
+                 "DOWN", "DOWN", "DOWN", "DOWN"
+                 ]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+
+        check.stdout(re.escape(room_8_description), str_output=room_8_description)
+        for item in room_8_items:
+            check.stdout(re.escape(item), str_output=item)
+
+
+    @check("conditional_move")
+    def forced_move(self):
+        """Checking if FORCED immediately moves the player."""
+        check = self.small_spawn()
+        moves = ["DOWN", "DOWN", "DOWN", "DOWN"]
+
+        for move in moves:
+            check.stdout("> ")
+            check.stdin(move, prompt=False)
+
+        check.stdout(re.escape("The grate is locked and you don't have any keys."),
+                     str_output="The grate is locked and you don't have any keys.")
+        check.stdout(re.escape("Outside grate"), str_output="Outside grate")
