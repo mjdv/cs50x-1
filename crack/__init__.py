@@ -60,3 +60,8 @@ def cracks_stelios():
 def cracks_zamyla():
     """cracks zamyla's password: 50i2t3sOSAZtk"""
     check50.run("./crack 50i2t3sOSAZtk").stdout("lol", timeout=50).exit(0)
+
+@check50.check(compiles)
+def cracks_stelios():
+    """cracks stelios' password: 51u8F0dkeDSbY"
+    check50.run("./crack 51u8F0dkeDSbY").stdout("NO", timeout=50).exit(0)
