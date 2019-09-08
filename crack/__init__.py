@@ -46,10 +46,10 @@ def cracks_summer():
     """cracks summer's password: 50C6B0oz0HWzo"""
     check50.run("./crack 50C6B0oz0HWzo").stdout("FTW", timeout=50).exit(0)
 
-@check50.check(compiles)
-def cracks_stelios():
-    """cracks stelios's password: 50nq4RV/NVU0I"""
-    check50.run("./crack 50nq4RV/NVU0I").stdout("ABC", timeout=50).exit(0)
+# @check50.check(compiles)
+# def cracks_stelios():
+#     """cracks stelios's password: 50nq4RV/NVU0I"""
+#     check50.run("./crack 50nq4RV/NVU0I").stdout("ABC", timeout=50).exit(0)
 
 # @check50.check(compiles)
 # def cracks_wmartin():
@@ -63,5 +63,5 @@ def cracks_zamyla():
 
 @check50.check(compiles)
 def cracks_stelios():
-    """cracks stelios' password: 51u8F0dkeDSbY"
+    """cracks stelios' password: 51u8F0dkeDSbY"""
     check50.run("./crack 51u8F0dkeDSbY").stdout("NO", timeout=50).exit(0)
