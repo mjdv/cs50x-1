@@ -59,7 +59,7 @@ def test420():
 
 @check50.check(compiles)
 def test_rounding():
-    """inputs with often made mistakes yield correct answers"""
+    """inputs with often made rounding errors yield correct answers"""
     from re import search
     
     tests = [("4.209", 19), ("16.2", 66), ("8.15", 34), ("262144.18", 1048581)]
@@ -68,7 +68,7 @@ def test_rounding():
         expected = f"{outp}\n"
         actual = check50.run("./greedy").stdin(inp).stdout()
         if not search(coins(outp), actual):
-            help = f"For input: {inp}\n    did you forget to round your input to the nearest cent?"
+            help = f"for input: {inp}\n    did you forget to round your input to the nearest cent?"
             raise check50.Mismatch(expected, actual, help=help)
             
 @check50.check(compiles)
