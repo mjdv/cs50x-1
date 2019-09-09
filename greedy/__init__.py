@@ -68,7 +68,7 @@ def test_rounding():
         expected = f"{outp}\n"
         actual = check50.run("./greedy").stdin(inp).stdout()
         if not search(coins(outp), actual):
-            help = f"For input: {inp}\ndid you forget to round your input to the nearest cent?"
+            help = f"For input: {inp}\n    did you forget to round your input to the nearest cent?"
             raise check50.Mismatch(expected, actual, help=help)
             
 @check50.check(compiles)
