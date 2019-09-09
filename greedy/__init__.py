@@ -58,6 +58,20 @@ def test420():
 
 
 @check50.check(compiles)
+def test_rounding():
+    """inputs with often made mistakes yield correct answers"""
+    from re import search
+    
+    tests = [("4.209", 19), ("16.2", 66), ("8.15", 34), ("262144.18", 1048580)]
+    
+    for inp, outp in tests:
+        expected = f"{outp}\n"
+        actual = check50.run("./greedy").stdin(inp).stdout()
+        if not search(coins(outp), actual):
+            help = "did you forget to round your input to the nearest cent?"
+            raise check50.Mismatch(expected, actual, help=help)
+            
+@check50.check(compiles)
 def test_reject_negative():
     """rejects a negative input like -1"""
     check50.run("./greedy").stdin("-1").reject()
