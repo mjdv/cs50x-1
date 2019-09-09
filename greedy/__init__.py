@@ -62,7 +62,7 @@ def test_rounding():
     """inputs with often made mistakes yield correct answers"""
     from re import search
     
-    tests = [("4.209", 19), ("16.2", 66), ("8.15", 34), ("262144.18", 1048580)]
+    tests = [("4.209", 19), ("16.2", 66), ("8.15", 34), ("262144.18", 1048581)]
     
     for inp, outp in tests:
         expected = f"{outp}\n"
