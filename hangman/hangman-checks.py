@@ -80,7 +80,8 @@ def load_hangman():
 @check50.check(load_hangman)
 def wrong_hangman():
     """
-    You cannot create a Hangman object with incorrect parameters.
+    Trying to create a Hangman object with incorrect parameters causes an
+    exception to be raised.
     """
     params = [(-2, 3), (27, 5), (5, 0), (5, -1)]
     messages = ["-2 letter word, which does not exist.",
@@ -98,6 +99,40 @@ def wrong_hangman():
         if game is not None:
             raise check50.Failure("Created a Hangman object for a " + message)
 
+@check50.check(wrong_hangman)
+def wrong_guesses():
+    """
+    Wrong input into game.guess() gives an exception.
+    """
+    sys.path.append(os.getcwd())
+    import hangman
+    Hangman = hangman.Hangman
+    game = Hangman(4, 5)
+
+    inputs = ["word", " ", "6", 25, True, False, None]
+    for wrong_input in inputs:
+        accepted = True
+        try:
+            game.guess(wrong_input)
+        except Exception:
+            accepted = False
+
+        if accepted:
+            raise check50.Failure("A guess of {str(wrong_input)} was accepted, " \
+                    "but any input other than a single letter should give an " \
+                    "exception.")
+
+    game.guess('A')
+    accepted = True
+    try:
+        game.guess('A')
+    except Exception:
+        accepted = False
+
+    if accepted:
+        raise check50.Failure("Guessing an already guessed letter should give " \
+                "an exception.")
+        
 @check50.check(load_hangman)
 def empty_game():
     """
@@ -138,6 +173,7 @@ def lose_games():
     """
     for _ in range(5):
         play_game(win=False)
+
 
 def play_game(win):
     """
