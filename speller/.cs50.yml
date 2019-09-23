@@ -2,7 +2,7 @@ check50:
   files: &check50_files
     - !exclude "*"
     - !include "*.c"
-    - !include ".h"
+    - !include "*.h"
     - !include "*.md"
     - !exclude speller.c
     - !require dictionary.c
