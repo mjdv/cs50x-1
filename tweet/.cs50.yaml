@@ -5,6 +5,7 @@ check50:
   dependencies:
     - "git+https://github.com/jelleas/uva_check50.git#egg=uva.check50>=0.0.2"
     - "nltk"
+    - "python-dateutil"
 
 submit50:
   files: *check50_files
