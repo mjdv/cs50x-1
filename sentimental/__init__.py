@@ -108,7 +108,7 @@ def greedy_compiles():
 
 @check50.check(greedy_compiles)
 def test041():
-    """input of 0.41 yields output of 4"""
+    """greedy.py input of 0.41 yields output of 4"""
     result = uva.check50.py.run("greedy.py", stdin=["0.41"])
     if not coins(4).match(result.stdout):
         raise check50.Mismatch("4\n", result.stdout)
@@ -116,7 +116,7 @@ def test041():
 
 @check50.check(greedy_compiles)
 def test001():
-    """input of 0.01 yields output of 1"""
+    """greedy.py input of 0.01 yields output of 1"""
     result = uva.check50.py.run("greedy.py", stdin=["0.01"])
     if not coins(1).match(result.stdout):
         raise check50.Mismatch("1\n", result.stdout)
@@ -124,7 +124,7 @@ def test001():
 
 @check50.check(greedy_compiles)
 def test015():
-    """input of 0.15 yields output of 2"""
+    """greedy.py input of 0.15 yields output of 2"""
     result = uva.check50.py.run("greedy.py", stdin=["0.15"])
     if not coins(2).match(result.stdout):
         raise check50.Mismatch("2\n", result.stdout)
@@ -132,7 +132,7 @@ def test015():
 
 @check50.check(greedy_compiles)
 def test160():
-    """input of 1.6 yields output of 7"""
+    """greedy.py input of 1.6 yields output of 7"""
     result = uva.check50.py.run("greedy.py", stdin=["1.6"])
     if not coins(7).match(result.stdout):
         raise check50.Mismatch("7\n", result.stdout)
@@ -140,7 +140,7 @@ def test160():
 
 @check50.check(greedy_compiles)
 def test230():
-    """input of 23 yields output of 92"""
+    """greedy.py input of 23 yields output of 92"""
     result = uva.check50.py.run("greedy.py", stdin=["23"])
     if not coins(92).match(result.stdout):
         raise check50.Mismatch("92\n", result.stdout)
@@ -148,7 +148,7 @@ def test230():
 
 @check50.check(greedy_compiles)
 def test420():
-    """input of 4.2 yields output of 18"""
+    """greedy.py input of 4.2 yields output of 18"""
     result = uva.check50.py.run("greedy.py", stdin=["4.2"])
     if not coins(18).match(result.stdout):
         help = None
@@ -159,7 +159,7 @@ def test420():
 
 @check50.check(greedy_compiles)
 def test_reject_negative():
-    """rejects a negative input like -1"""
+    """greedy.py rejects a negative input like -1"""
     result = uva.check50.py.run("greedy.py", stdin=["-1", "2"])
     if result.stdin:
         raise check50.Failure("expected stdin to be empty!")
@@ -183,7 +183,7 @@ def vigenere_compiles():
 
 @check50.check(vigenere_compiles)
 def aa():
-    """encrypts "a" as "a" using "a" as keyword"""
+    """vigenere.py encrypts "a" as "a" using "a" as keyword"""
     result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "a"], stdin=["a"])
     if not re.match(".*ciphertext:\s*a\n", result.stdout):
         raise check50.Mismatch("ciphertext: a\n", result.stdout)
@@ -191,7 +191,7 @@ def aa():
 
 @check50.check(vigenere_compiles)
 def bazbarfoo_caqgon():
-    """encrypts "barfoo" as "caqgon" using "baz" as keyword"""
+    """vigenere.py encrypts "barfoo" as "caqgon" using "baz" as keyword"""
     result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "baz"], stdin=["barfoo"])
     if not re.match(".*ciphertext:\s*caqgon\n", result.stdout):
         raise check50.Mismatch("ciphertext: caqgon\n", result.stdout)
@@ -199,7 +199,7 @@ def bazbarfoo_caqgon():
 
 @check50.check(vigenere_compiles)
 def mixedBaZBARFOO():
-    """encrypts "BaRFoo" as "CaQGon" using "BaZ" as keyword"""
+    """vigenere.py encrypts "BaRFoo" as "CaQGon" using "BaZ" as keyword"""
     result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "BaZ"], stdin=["BaRFoo"])
     if not re.match(".*ciphertext:\s*CaQGon\n", result.stdout):
         raise check50.Mismatch("ciphertext: CaQGon\n", result.stdout)
@@ -207,7 +207,7 @@ def mixedBaZBARFOO():
 
 @check50.check(vigenere_compiles)
 def allcapsBAZBARFOO():
-    """encrypts "BARFOO" as "CAQGON" using "BAZ" as keyword"""
+    """vigenere.py encrypts "BARFOO" as "CAQGON" using "BAZ" as keyword"""
     result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "BAZ"], stdin=["BARFOO"])
     if not re.match(".*ciphertext:\s*CAQGON\n", result.stdout):
         raise check50.Mismatch("ciphertext: CAQGON\n", result.stdout)
@@ -215,7 +215,7 @@ def allcapsBAZBARFOO():
 
 @check50.check(vigenere_compiles)
 def bazworld():
-    """encrypts "world!$?" as "xoqmd!$?" using "baz" as keyword"""
+    """vigenere.py encrypts "world!$?" as "xoqmd!$?" using "baz" as keyword"""
     result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "baz"], stdin=["world!$?"])
     if not re.match(".*ciphertext:\s*xoqmd!\$\?\n", result.stdout):
         raise check50.Mismatch("ciphertext: xoqmd!$?\n", result.stdout)
@@ -223,7 +223,7 @@ def bazworld():
 
 @check50.check(vigenere_compiles)
 def withspaces():
-    """encrypts "hello, world!" as "iekmo, vprke!" using "baz" as keyword"""
+    """vigenere.py encrypts "hello, world!" as "iekmo, vprke!" using "baz" as keyword"""
     result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "baz"], stdin=["hello, world!"])
     if not re.match(".*ciphertext:\s*iekmo, vprke\!\n", result.stdout):
         raise check50.Mismatch("ciphertext: iekmo, vprke!\n", result.stdout)
@@ -231,7 +231,7 @@ def withspaces():
 
 @check50.check(vigenere_compiles)
 def noarg():
-    """handles lack of argv[1]"""
+    """vigenere.py handles lack of argv[1]"""
     try:
         result = uva.check50.py.run("vigenere.py", argv=["vigenere.py"])
     except uva.check50.py.PythonException as e:
@@ -244,7 +244,7 @@ def noarg():
 
 @check50.check(vigenere_compiles)
 def toomanyargs():
-    """handles argc > 2"""
+    """vigenere.py handles argc > 2"""
     try:
         result = uva.check50.py.run("vigenere.py", argv=["vigenere.py", "1", "2", "3"])
     except uva.check50.py.PythonException as e:
