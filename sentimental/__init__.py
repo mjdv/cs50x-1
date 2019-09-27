@@ -78,6 +78,14 @@ def test24():
         raise check50.Failure("Expected stdin to be empty")
     check_pyramid(result.stdout, "Height: Height: " + open("2.txt").read())
 
+@check50.check(test24)
+def test_invalid_twice():
+    """mario.py rejects a height of 24, rejects a height of -1, and then accepts a height of 2"""
+    result = uva.check50.py.run("mario.py", stdin=["24", "-1", "2"])
+    if result.stdin:
+        raise check50.Failure("Expected stdin to be empty")
+    check_pyramid(result.stdout, "Height: Height: Height: " + open("2.txt").read())
+
 def check_pyramid(output, correct):
     if output == correct:
         return
