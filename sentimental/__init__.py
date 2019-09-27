@@ -12,7 +12,7 @@ def hello_compiles():
     """hello.py compiles."""
     uva.check50.py.compile("hello.py")
 
-@check50.check(compiles)
+@check50.check(hello_compiles)
 def prints_hello():
     """hello.py prints "hello, world\\n" """
     from re import match
