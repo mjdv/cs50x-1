@@ -89,14 +89,6 @@ def test_reject_empty():
     check50.run("./greedy").stdin("").reject()
 
 
-@check50.check(test_reject_negative)
-def test_reject_negative_twice():
-    """greedy.py rejects a negative input like -1 or -3 twice"""
-    result = uva.check50.py.run("greedy.py", stdin=["-1", "-3", "2"])
-    if result.stdin:
-        raise check50.Failure("expected stdin to be empty!")
-
-
 def coins(num):
     # regex that matches `num` not surrounded by any other numbers (so coins(2) won't match e.g. 123)
     return fr"(?<!\d){num}(?!\d)"
