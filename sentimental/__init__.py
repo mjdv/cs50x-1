@@ -40,39 +40,39 @@ def mario_compiles():
 
 @check50.check(mario_compiles)
 def test_reject_negative():
-    """rejects a height of -1"""
+    """mario.py rejects a height of -1"""
     result = uva.check50.py.run("mario.py", stdin=["-1", "2"])
     if result.stdin:
         raise check50.Failure("Expected stdin to be empty")
 
 @check50.check(mario_compiles)
 def test0():
-    """handles a height of 0 correctly"""
+    """mario.py handles a height of 0 correctly"""
     result = uva.check50.py.run("mario.py", stdin=["0"])
     if "#" in result.stdout:
         raise check50.Failure("Expected no # in stdout")
 
 @check50.check(mario_compiles)
 def test1():
-    """handles a height of 1 correctly"""
+    """mario.py handles a height of 1 correctly"""
     result = uva.check50.py.run("mario.py", stdin=["1"])
     check_pyramid(result.stdout, "Height: " + open("1.txt").read())
 
 @check50.check(mario_compiles)
 def test2():
-    """handles a height of 2 correctly"""
+    """mario.py handles a height of 2 correctly"""
     result = uva.check50.py.run("mario.py", stdin=["2"])
     check_pyramid(result.stdout, "Height: " + open("2.txt").read())
 
 @check50.check(mario_compiles)
 def test23():
-    """handles a height of 23 correctly"""
+    """mario.py handles a height of 23 correctly"""
     result = uva.check50.py.run("mario.py", stdin=["23"])
     check_pyramid(result.stdout, "Height: " + open("23.txt").read())
 
 @check50.check(mario_compiles)
 def test24():
-    """rejects a height of 24, and then accepts a height of 2"""
+    """mario.py rejects a height of 24, and then accepts a height of 2"""
     result = uva.check50.py.run("mario.py", stdin=["24", "2"])
     if result.stdin:
         raise check50.Failure("Expected stdin to be empty")

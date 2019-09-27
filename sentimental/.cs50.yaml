@@ -3,7 +3,7 @@ check50:
     - !exclude "*"
     - !require hello.py
     - !require mario.py
-    - !require cash.py
+    - !require greedy.py
     - !require vigenere.py
   dependencies:
     - "git+https://github.com/jelleas/uva_check50.git#egg=uva.check50>=0.0.2"
