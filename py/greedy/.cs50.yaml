@@ -1,7 +1,7 @@
 check50:
   files: &check50_files
     - !exclude "*"
-    - !require cash.py
+    - !require greedy.py
   dependencies:
     - "git+https://github.com/jelleas/uva_check50.git#egg=uva.check50>=0.0.2"
 
