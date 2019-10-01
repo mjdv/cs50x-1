@@ -14,32 +14,32 @@ def compiles():
 @check50.check(compiles)
 def aa():
     """encrypts "a" as "a" using "a" as keyword"""
-    check50.run("./vigenere a").stdin("a").stdout("ciphertext:\s*a\n", "ciphertext: a\n").exit(0)
+    check50.run("./vigenere a").stdin("a").stdout("ciphertext:[ \t]*a\n", "ciphertext: a\n").exit(0)
 
 @check50.check(compiles)
 def bazbarfoo_caqgon():
     """encrypts "barfoo" as "caqgon" using "baz" as keyword"""
-    check50.run("./vigenere baz").stdin("barfoo").stdout("ciphertext:\s*caqgon\n", "ciphertext: caqgon\n").exit(0)
+    check50.run("./vigenere baz").stdin("barfoo").stdout("ciphertext:[ \t]*caqgon\n", "ciphertext: caqgon\n").exit(0)
 
 @check50.check(compiles)
 def mixedBaZBARFOO():
     """encrypts "BaRFoo" as "CaQGon" using "BaZ" as keyword"""
-    check50.run("./vigenere BaZ").stdin("BaRFoo").stdout("ciphertext:\s*CaQGon\n", "ciphertext: CaQGon\n").exit(0)
+    check50.run("./vigenere BaZ").stdin("BaRFoo").stdout("ciphertext:[ \t]*CaQGon\n", "ciphertext: CaQGon\n").exit(0)
 
 @check50.check(compiles)
 def allcapsBAZBARFOO():
     """encrypts "BARFOO" as "CAQGON" using "BAZ" as keyword"""
-    check50.run("./vigenere BAZ").stdin("BARFOO").stdout("ciphertext:\s*CAQGON\n", "ciphertext: CAQGON\n").exit(0)
+    check50.run("./vigenere BAZ").stdin("BARFOO").stdout("ciphertext:[ \t]*CAQGON\n", "ciphertext: CAQGON\n").exit(0)
 
 @check50.check(compiles)
 def bazworld():
     """encrypts "world!$?" as "xoqmd!$?" using "baz" as keyword"""
-    check50.run("./vigenere baz").stdin("world!$?").stdout("ciphertext:\s*xoqmd!\$\?\n", "ciphertext: xoqmd!$?\n").exit(0)
+    check50.run("./vigenere baz").stdin("world!$?").stdout("ciphertext:[ \t]*xoqmd!\$\?\n", "ciphertext: xoqmd!$?\n").exit(0)
 
 @check50.check(compiles)
 def withspaces():
     """encrypts "hello, world!" as "iekmo, vprke!" using "baz" as keyword"""
-    check50.run("./vigenere baz").stdin("hello, world!").stdout("ciphertext:\s*iekmo, vprke!\n", "ciphertext: iekmo, vprke!\n").exit(0)
+    check50.run("./vigenere baz").stdin("hello, world!").stdout("ciphertext:[ \t]*iekmo, vprke!\n", "ciphertext: iekmo, vprke!\n").exit(0)
 
 @check50.check(compiles)
 def noarg():
