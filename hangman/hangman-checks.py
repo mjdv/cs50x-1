@@ -11,6 +11,7 @@ def raise_timeout():
 def exists():
     """hangman.py and dictionary.txt both exist."""
     check50.exists("hangman.py")
+    check50.include("dictionary.txt")
 
 @check50.check(exists, timeout=3)
 def can_import():
