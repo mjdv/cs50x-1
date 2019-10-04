@@ -55,9 +55,9 @@ def test_lexicon():
         raise check50.Failure('Was unable to get words of length 4 from lexicon '\
             'object with "lex.get_words(4)".')
 
-    if len(words) != 4030:
+    if len(words) != 4128:
         raise check50.Failure("Did not succesfully load all 4-letter words.",
-                help=f"Expected 4030 words, got {len(words)}.")
+                help=f"Expected 4128 words, got {len(words)}.")
 
 @check50.check(can_import)
 def load_hangman():
