@@ -95,9 +95,7 @@ def correctly_sorts():
 
 def test_sorted(items):
     check = check50.run("./sort")
-    for i in items:
-        check.stdin(str(i))
+    check.stdin("\n".join(str(i) for i in items), prompt=False)
     check.stdin(check50.EOF)
-    for i in sorted(items):
-        check.stdout(str(i))
+    check.stdout("\n".join(str(i) for i in sorted(items)))
     check.exit(0)
