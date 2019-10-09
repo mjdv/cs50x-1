@@ -1,5 +1,4 @@
 check50:
     files:
         - !require hangman.py
-        - !require dictionary.txt
     checks: hangman-checks.py

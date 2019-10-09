@@ -10,7 +10,8 @@ def raise_timeout():
 @check50.check()
 def exists():
     """hangman.py and dictionary.txt both exist."""
-    check50.exists("hangman.py", "dictionary.txt")
+    check50.exists("hangman.py")
+    check50.include("dictionary.txt")
 
 @check50.check(exists, timeout=3)
 def can_import():
@@ -54,9 +55,9 @@ def test_lexicon():
         raise check50.Failure('Was unable to get words of length 4 from lexicon '\
             'object with "lex.get_words(4)".')
 
-    if len(words) != 4030:
+    if len(words) != 4128:
         raise check50.Failure("Did not succesfully load all 4-letter words.",
-                help=f"Expected 4030 words, got {len(words)}.")
+                help=f"Expected 4128 words, got {len(words)}.")
 
 @check50.check(can_import)
 def load_hangman():
@@ -169,7 +170,7 @@ def win_games():
 @check50.check(empty_game)
 def lose_games():
     """
-    Play five losing games.
+    Play five losing games, each time returning "False".
     """
     for _ in range(5):
         play_game(win=False)
@@ -187,7 +188,7 @@ def play_game(win):
     else:
         game = Hangman(12, 5)
     
-    alphabet = list(string.ascii_uppercase)
+    alphabet = list(string.ascii_lowercase)
     random.shuffle(alphabet)
     guesses = []
     num_wrong_guesses = 0
